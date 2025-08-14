@@ -1,8 +1,8 @@
 <!-- UNITY CODE ASSIST INSTRUCTIONS START -->
-- Project name: Bowling_Kai
+- Project name: IPROGVR-Bowling
 - Unity version: Unity 2021.3.45f1
 - Active game object:
-  - Name: Monitor Panel
+  - Name: Pole2
   - Tag: Untagged
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
