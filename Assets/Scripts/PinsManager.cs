@@ -89,10 +89,12 @@ public class PinsManager : MonoBehaviour
         float phaseDuration = 0.6f;
         float waitDuration = 1.0f;
 
+
         Vector3 jumpPos = new Vector3(originalPos.x, originalPos.y + 3f, originalPos.z);
         pin.localPosition = jumpPos;
 
         Vector3 lowerPos = new Vector3(originalPos.x, originalPos.y + 0.9f, originalPos.z);
+
         yield return StartCoroutine(SmoothMove(pin, jumpPos, lowerPos, phaseDuration));
 
         yield return new WaitForSeconds(waitDuration);

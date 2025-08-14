@@ -9,14 +9,20 @@ public class BallTriggerL : MonoBehaviour
     public PinsManager pinsManager;
 
     private bool ballTrigger = false;
+    private bool spare = false;
+
+    public static int frame = 10;
+
+    private int turn = 0;
 
     private void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("BowlingBall"))
         {
-            ballTrigger = true;
+            turn++;
+            StartCoroutine(BallTrigger());
 
-            Debug.Log("Bowling Ball exited the trigger!");
+            Debug.Log("Frame: " + frame + "Turn: " + turn);
         }
     }
 
@@ -29,15 +35,110 @@ public class BallTriggerL : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (ballTrigger)
+        if (frame < 10)
         {
-            ballTrigger = false;
+            if (turn == 1 && ballTrigger)
+            {
+                ballTrigger = false;
 
-            StartCoroutine(LaneReset());
+                if (PinsTriggerL.PinsKnockedL == 10)    // If Strike
+                {
+                    turn = 0;
+                    frame++;
+
+                    ScoreManager.PinsCount += PinsTriggerL.PinsKnockedL;    // Add Score
+
+                    StartCoroutine(LaneReset());
+                }
+
+                else
+                {
+                    // Play Spare Animation
+                }
+            }
+
+            else if (ballTrigger)   // Turn 2
+            {
+                turn = 0;
+                frame++;
+                ballTrigger = false;
+
+                ScoreManager.PinsCount += PinsTriggerL.PinsKnockedL;    // Add Score
+
+                StartCoroutine(LaneReset());
+            }
+        }
+
+        else
+        {
+            if (turn == 1 && ballTrigger)
+            {
+                ballTrigger = false;
+
+                if (PinsTriggerL.PinsKnockedL == 10)    // If Strike
+                {
+                    ScoreManager.PinsCount += PinsTriggerL.PinsKnockedL;    // Add Score
+
+                    StartCoroutine(LaneReset());
+                }
+
+                else
+                {
+                    // Play Spare Animation
+                }
+            }
+
+            else if (turn == 2 && ballTrigger)
+            {
+                ballTrigger = false;
+
+                if (PinsTriggerL.PinsKnockedL == 10)    // If Strike or Spare
+                {
+                    spare = true;
+
+                    ScoreManager.PinsCount += PinsTriggerL.PinsKnockedL;    // Add Score
+                    Debug.Log("Total Score: " + ScoreManager.PinsCount);
+
+                    StartCoroutine(LaneReset());
+                }
+
+                else
+                {
+                    frame = 0;
+
+                    ScoreManager.PinsCount += PinsTriggerL.PinsKnockedL;    // Add Score
+                    Debug.Log("Total Score: " + ScoreManager.PinsCount);
+
+                    ScoreManager.Game++;
+                    Debug.Log("Game Ended");
+                    // End Game
+                }
+            }
+
+            else if (spare && ballTrigger)  // 3rd Attempt only if 2nd Attempt = 10
+            {
+                frame = 0;
+
+                ScoreManager.PinsCount += PinsTriggerL.PinsKnockedL;    // Add Score
+                Debug.Log("Total Score: " + ScoreManager.PinsCount);
+
+                ScoreManager.Game++;
+                Debug.Log("Game Ended");
+                // End Game
+
+                StartCoroutine(LaneReset());
+            }
         }
     }
 
-    IEnumerator LaneStart()
+    private IEnumerator BallTrigger()
+    {
+        yield return new WaitForSeconds(5f);
+
+        ballTrigger = true;
+    }
+
+    private IEnumerator LaneStart()
     {
         yield return new WaitForSeconds(1f);
 
@@ -46,12 +147,22 @@ public class BallTriggerL : MonoBehaviour
 
     private IEnumerator LaneReset()
     {
-        yield return new WaitForSeconds(5);
+        PinsTriggerL.Active = false;
+
+        yield return new WaitForSeconds(5f);
 
         BallBlockerL.SetTrigger("Trigger");
 
         yield return new WaitForSeconds(3f);
 
         pinsManager.toggleL = true;
+
+        yield return new WaitForSeconds(4f);
+
+        PinsTriggerL.Active = true;
+        PinsTriggerL.PinsKnockedL = 0;
+
+        Debug.Log("Frame: " + frame + "Turn: " + turn);
+        Debug.Log("Total Score: " + ScoreManager.PinsCount);
     }
 }

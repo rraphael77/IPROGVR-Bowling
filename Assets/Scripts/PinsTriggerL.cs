@@ -13,9 +13,8 @@ public class PinsTriggerL : MonoBehaviour
         if (Active)
         {
             PinsKnockedL--;
+            Debug.Log($"Score: {PinsKnockedL} Pins");
         }
-
-        Debug.Log($"Score: {PinsKnockedL} Pins");
     }
 
     private void OnTriggerExit(Collider other)
@@ -23,8 +22,7 @@ public class PinsTriggerL : MonoBehaviour
         if (Active)
         {
             PinsKnockedL++;
+            Debug.Log($"Score: {PinsKnockedL} Pins");
         }
-
-        Debug.Log($"Score: {PinsKnockedL} Pins");
     }
 }
