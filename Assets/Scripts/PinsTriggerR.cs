@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PinsTriggerL : MonoBehaviour
+public class PinsTriggerR : MonoBehaviour
 {
     public static bool Active = false;
 
