@@ -2945,6 +2945,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5f01e4b1fba7aa41926f810e7818d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ball: {fileID: 1979595967}
+  ball2: {fileID: 34529954}
+  ball3: {fileID: 409287705}
 --- !u!65 &293463689
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -9685,6 +9688,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   BallBlockerL: {fileID: 1470841759}
+  pinsManager: {fileID: 897031703}
 --- !u!1 &1122948917
 GameObject:
   m_ObjectHideFlags: 0
@@ -13468,6 +13472,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5f01e4b1fba7aa41926f810e7818d79, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ball: {fileID: 1979595967}
+  ball2: {fileID: 34529954}
+  ball3: {fileID: 409287705}
 --- !u!1 &1574691197
 GameObject:
   m_ObjectHideFlags: 0
