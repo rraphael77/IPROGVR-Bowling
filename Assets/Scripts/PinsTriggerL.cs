@@ -1,30 +1,35 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class PinsTriggerL : MonoBehaviour
 {
     public static bool Active = false;
-
     public static int PinsKnockedL = 0;
 
-    private void OnTriggerEnter(Collider other)
+    public TMP_Text scoreText; // Assign in Inspector
+
+    private void Update()
     {
-        if (Active)
+        if (!Active) return;
+
+        Pin[] allPins = FindObjectsOfType<Pin>();
+        int knockedCount = 0;
+
+        foreach (Pin pin in allPins)
         {
-            PinsKnockedL--;
+            if (pin.IsKnockedOver())
+            {
+                knockedCount++;
+            }
         }
 
-        Debug.Log($"Score: {PinsKnockedL} Pins");
-    }
+        PinsKnockedL = knockedCount;
 
-    private void OnTriggerExit(Collider other)
-    {
-        if (Active)
+        if (scoreText != null)
         {
-            PinsKnockedL++;
+            scoreText.text = $"Score: {PinsKnockedL} Pins";
         }
 
-        Debug.Log($"Score: {PinsKnockedL} Pins");
+      //  Debug.Log($"Score: {PinsKnockedL} Pins");
     }
 }
