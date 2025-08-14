@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 public class BallTriggerL : MonoBehaviour
 {
     public Animator BallBlockerL;
+    public PinsManager pinsManager;
 
     private bool ballTrigger = false;
 
@@ -48,5 +49,9 @@ public class BallTriggerL : MonoBehaviour
         yield return new WaitForSeconds(5);
 
         BallBlockerL.SetTrigger("Trigger");
+
+        yield return new WaitForSeconds(3f);
+
+        pinsManager.toggleL = true;
     }
 }
