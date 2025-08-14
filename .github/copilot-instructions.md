@@ -2,7 +2,7 @@
 - Project name: IPROGVR-Bowling
 - Unity version: Unity 2021.3.45f1
 - Active game object:
-  - Name: 6
-  - Tag: Untagged
+  - Name: Ball3
+  - Tag: BowlingBall
   - Layer: Default
 <!-- UNITY CODE ASSIST INSTRUCTIONS END -->
