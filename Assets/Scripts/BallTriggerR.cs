@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallTriggerL : MonoBehaviour
+public class BallTriggerR : MonoBehaviour
 {
-    public Animator BallBlockerL;
+    public Animator BallBlockerR;
 
     public PinsManager pinsManager;
 
@@ -22,14 +22,14 @@ public class BallTriggerL : MonoBehaviour
             turn++;
             StartCoroutine(BallTrigger());
 
-            Debug.Log("Left Frame: " + frame + "Turn: " + turn);
+            Debug.Log("Right Frame: " + frame + "Turn: " + turn);
         }
     }
 
     public void SpareRoutine()
     {
-        BallBlockerL.SetTrigger("Trigger");
-        pinsManager.toggleL2 = true;
+        BallBlockerR.SetTrigger("Trigger");
+        pinsManager.toggleR2 = true;
     }
 
     // Start is called before the first frame update
@@ -47,12 +47,12 @@ public class BallTriggerL : MonoBehaviour
             {
                 ballTrigger = false;
 
-                if (PinsTriggerL.PinsKnocked == 10)    // If Strike
+                if (PinsTriggerR.PinsKnocked == 10)    // If Strike
                 {
                     turn = 0;
                     frame++;
 
-                    ScoreManager.PinsCountL += PinsTriggerL.PinsKnocked;    // Add Score
+                    ScoreManager.PinsCountR += PinsTriggerR.PinsKnocked;    // Add Score
 
                     StartCoroutine(LaneReset());
                 }
@@ -69,7 +69,7 @@ public class BallTriggerL : MonoBehaviour
                 frame++;
                 ballTrigger = false;
 
-                ScoreManager.PinsCountL += PinsTriggerL.PinsKnocked;    // Add Score
+                ScoreManager.PinsCountR += PinsTriggerR.PinsKnocked;    // Add Score
 
                 StartCoroutine(LaneReset());
             }
@@ -81,9 +81,9 @@ public class BallTriggerL : MonoBehaviour
             {
                 ballTrigger = false;
 
-                if (PinsTriggerL.PinsKnocked == 10)    // If Strike
+                if (PinsTriggerR.PinsKnocked == 10)    // If Strike
                 {
-                    ScoreManager.PinsCountL += PinsTriggerL.PinsKnocked;    // Add Score
+                    ScoreManager.PinsCountR += PinsTriggerR.PinsKnocked;    // Add Score
 
                     StartCoroutine(LaneReset());
                 }
@@ -98,12 +98,12 @@ public class BallTriggerL : MonoBehaviour
             {
                 ballTrigger = false;
 
-                if (PinsTriggerL.PinsKnocked == 10)    // If Strike or Spare
+                if (PinsTriggerR.PinsKnocked == 10)    // If Strike or Spare
                 {
                     spare = true;
 
-                    ScoreManager.PinsCountL += PinsTriggerL.PinsKnocked;    // Add Score
-                    Debug.Log("Left Total Score: " + ScoreManager.PinsCountL);
+                    ScoreManager.PinsCountR += PinsTriggerR.PinsKnocked;    // Add Score
+                    Debug.Log("Right Total Score: " + ScoreManager.PinsCountR);
 
                     StartCoroutine(LaneReset());
                 }
@@ -112,13 +112,13 @@ public class BallTriggerL : MonoBehaviour
                 {
                     frame = 0;
 
-                    ScoreManager.PinsCountL += PinsTriggerL.PinsKnocked;    // Add Score
-                    Debug.Log("Left Total Score: " + ScoreManager.PinsCountL);
+                    ScoreManager.PinsCountR += PinsTriggerR.PinsKnocked;    // Add Score
+                    Debug.Log("Right Total Score: " + ScoreManager.PinsCountR);
 
-                    PinsTriggerL.Active = false;
-                    ScoreManager.GameL++;
+                    PinsTriggerR.Active = false;
+                    ScoreManager.GameR++;
 
-                    Debug.Log("Left Game Ended");
+                    Debug.Log("Right Game Ended");
 
                     StartCoroutine(LaneReset());
                 }
@@ -128,13 +128,13 @@ public class BallTriggerL : MonoBehaviour
             {
                 frame = 0;
 
-                ScoreManager.PinsCountL += PinsTriggerL.PinsKnocked;    // Add Score
-                Debug.Log("Left Total Score: " + ScoreManager.PinsCountL);
+                ScoreManager.PinsCountR += PinsTriggerR.PinsKnocked;    // Add Score
+                Debug.Log("Right Total Score: " + ScoreManager.PinsCountR);
 
-                PinsTriggerL.Active = false;
-                ScoreManager.GameL++;
+                PinsTriggerR.Active = false;
+                ScoreManager.GameR++;
 
-                Debug.Log("Left Game Ended");
+                Debug.Log("Right Game Ended");
 
                 StartCoroutine(LaneReset());
             }
@@ -152,27 +152,27 @@ public class BallTriggerL : MonoBehaviour
     {
         yield return new WaitForSeconds(1f);
 
-        PinsTriggerL.Active = true;
+        PinsTriggerR.Active = true;
     }
 
     private IEnumerator LaneReset()
     {
-        PinsTriggerL.Active = false;
+        PinsTriggerR.Active = false;
 
         yield return new WaitForSeconds(5f);
 
-        BallBlockerL.SetTrigger("Trigger");
+        BallBlockerR.SetTrigger("Trigger");
 
         yield return new WaitForSeconds(3f);
 
-        pinsManager.toggleL = true;
+        pinsManager.toggleR = true;
 
         yield return new WaitForSeconds(4f);
 
-        PinsTriggerL.Active = true;
-        PinsTriggerL.PinsKnocked = 0;
+        PinsTriggerR.Active = true;
+        PinsTriggerR.PinsKnocked = 0;
 
-        Debug.Log("Left Frame: " + frame + "Turn: " + turn);
-        Debug.Log("Left Total Score: " + ScoreManager.PinsCountL);
+        Debug.Log("Right Frame: " + frame + "Turn: " + turn);
+        Debug.Log("Right Total Score: " + ScoreManager.PinsCountR);
     }
 }

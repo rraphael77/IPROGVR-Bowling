@@ -23,6 +23,14 @@ public class PinsManager : MonoBehaviour
 
     public bool toggleL = false;
     public bool toggleR = false;
+    public bool toggleL2 = false;
+    public bool toggleR2 = false;
+
+    private bool IsStanding(Transform pin)
+    {
+        float angle = Vector3.Angle(pin.up, Vector3.up);
+        return angle < 45f;
+    }
 
     void Start()
     {
@@ -44,6 +52,20 @@ public class PinsManager : MonoBehaviour
             pinsetterR.SetTrigger("Reset");
             ResetPins(rPinsPositions, rPinsRotations, rPinsRigidbodies);
             toggleR = false;
+        }
+
+        else if (toggleL2)
+        {
+            pinsetterL.SetTrigger("Spare");
+            SparePins(lPinsPositions, lPinsRotations, lPinsRigidbodies);
+            toggleL2 = false;
+        }
+
+        else if (toggleR2)
+        {
+            pinsetterR.SetTrigger("Spare");
+            SparePins(rPinsPositions, rPinsRotations, rPinsRigidbodies);
+            toggleR2 = false;
         }
     }
 
@@ -84,11 +106,55 @@ public class PinsManager : MonoBehaviour
         }
     }
 
+    private void SparePins(Dictionary<Transform, Vector3> positions,
+    Dictionary<Transform, Quaternion> rotations,
+    Dictionary<Transform, Rigidbody> rigidbodies)
+    {
+        foreach (Transform t in positions.Keys)
+        {
+            if (!IsStanding(t))
+                continue;
+
+            t.localRotation = rotations[t];
+
+            Rigidbody rb = null;
+            if (rigidbodies.ContainsKey(t))
+            {
+                rb = rigidbodies[t];
+                rb.velocity = Vector3.zero;
+                rb.angularVelocity = Vector3.zero;
+                rb.isKinematic = true;
+            }
+
+            StartCoroutine(SpareSequence(t, positions[t], rb));
+        }
+    }
+
+    private IEnumerator SpareSequence(Transform pin, Vector3 originalPos, Rigidbody rb)
+    {
+        float phaseDuration = 0.4f;
+        float waitDuration = 3f;
+
+        yield return new WaitForSeconds(1f);
+
+        Vector3 upperPos = new Vector3(originalPos.x, originalPos.y + 1f, originalPos.z);
+
+        yield return StartCoroutine(SmoothMove(pin, originalPos, upperPos, phaseDuration));
+
+        yield return new WaitForSeconds(waitDuration);
+
+        yield return StartCoroutine(SmoothMove(pin, pin.localPosition, originalPos, phaseDuration));
+
+        if (rb != null)
+        {
+            rb.isKinematic = false;
+        }
+    }
+
     private IEnumerator ResetSequence(Transform pin, Vector3 originalPos, Rigidbody rb)
     {
         float phaseDuration = 0.6f;
         float waitDuration = 1.0f;
-
 
         Vector3 jumpPos = new Vector3(originalPos.x, originalPos.y + 3f, originalPos.z);
         pin.localPosition = jumpPos;

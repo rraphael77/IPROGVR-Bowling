@@ -5,16 +5,25 @@ using UnityEngine;
 public class ScoreManager : MonoBehaviour
 {
 
-    public static int PinsCount = 0;
-    public static int Game = 0;
+    public static int PinsCountL = 0;
+    public static int PinsCountR = 0;
+
+    public static int GameL = 0;
+    public static int GameR = 0;
 
     // Update is called once per frame
     void Update()
     {
-        if (Game == 1)
+        if (GameL == 1)
         {
             Debug.Log("Game Over!");
-            Debug.Log("Total Score: " + PinsCount);
+            Debug.Log("Total Score: " + PinsCountL);
+        }
+
+        else if (GameR == 1)
+        {
+            Debug.Log("Game Over!");
+            Debug.Log("Total Score: " + PinsCountR);
         }
     }
 }
