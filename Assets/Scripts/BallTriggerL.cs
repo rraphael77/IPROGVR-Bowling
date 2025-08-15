@@ -12,7 +12,7 @@ public class BallTriggerL : MonoBehaviour
     private bool spare = false;
     private bool strike = false;
 
-    public static int frame = 1;
+    public static int frame = 10;
 
     private int turn = 0;
     private int tempCount = 0;
